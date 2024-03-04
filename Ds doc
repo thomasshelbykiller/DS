@@ -1,0 +1,383 @@
+ 					DS(DATA SCIENCE)
+
+prac 1: Perform one way Anova to compare the means across multiple groups. Conduct post-hoc 
+tests to identify significant differences between group means.(Perform using R tool)
+(Excel file used Students.csv)
+
+(1) Ftest:
+
+ftest <- read.csv(file.choose(), sep = ",", header = T)
+var.test(ftest$Marks1, ftest$Marks2, alternative="two.sided")
+
+(2) One-Way:
+
+owa <- read.csv(file.choose(), sep=",", header = T)
+names(owa)
+summary(owa)
+head(owa)
+anv <- aov(formula = Marks1~Marks2, data = owa)
+summary(anv)
+
+(3) Two-Way:
+
+data <- read.csv(file.choose(), sep=",", headr = T)
+names(data)
+summary(data)
+anvi <- aov(formula = Marks1~Marks2+Marks3+Marks2*Marks3, data=data)
+summary(anvi)
+
+
+prac 2: : Introduction to Excel
+● Perform conditional formatting on a dataset using various criteria.
+● Create a pivot table to analyze and summarize data.
+● User VLOOKUP function to retrieve information from a different worksheet or table.
+● Perform what if analysis using Goal seek to determine input values for desired output.
+(Excel file used Students.csv)
+
+(A) Perform conditional formatting on a dataset using various criteria.
+First highlight your content to analyze and then in Home > Conditional Formatting > Icon 
+Set > Select icon set of your choice:
+
+DATA BARS:
+First highlight your content to analyze and then in Home > Conditional Formatting > Data 
+Bars > Select data bar of your choice:
+
+COLOR SCALES:
+First highlight your content and then in Home > Conditional Formatting > Color Scales > 
+Select color scale of your choice:
+
+(B) Create a pivot table to analyze and summarize data.
+
+Select “PivotTable” from the insert table and select the table/range as well as where to 
+place the table:
+
+Pivot table preview:
+
+From the PivotTable tab, go to settings t rename the Pivot Table:
+
+Open PivotTable field drag and drop the rows/columns of your original table:
+
+You can see the output being displayed on the XSL sheet:
+
+You can analyze the data by adding the names to various fields such as Filter, Rows, 
+Columns and Values:
+
+For Slicer, go to PivotTable tab, select “InsertSlice” and from that select any records you 
+want to slice (filter) apart:
+
+To group data, right-click on the data you wish to group and select the range of your 
+group: (alternatively you can select range and press alt+shift+right arrow)
+
+Now you are able to open and close the group using the leftmost button:
+
+(C)Use the VLOOKUP function to retrieve information from a different worksheet or table
+
+Formula:   =VLOOKUP(lookup_value, table_array, index, range)
+
+(D) Perform what if analysis using Goal Seek to determine input values for desired output.
+Remove any one data from Column:
+
+Now, go to the Data > What-If-Analysis > Goal Seek:
+
+Now, set the value:
+
+
+prac 3: ● Feature Scaling and Dummification Apply feature-scaling techniques like standardization and normalization to numerical features.
+● Perform feature Dummification to convert categorical variables into numerical 
+representations.
+
+Part A: 
+Wine_dataset:
+INPUT:
+import numpy as np 
+import pandas as pd 
+import matplotlib.pyplot as plt 
+import seaborn as sns
+df = pd.read_csv('wine_data.csv', header=None,usecols=[0,1,2]) 
+df.columns = ['Class label','Alcohol', 'Malic Acid'] 
+print(df)
+
+CODE:
+from sklearn.preprocessing import MinMaxScaler
+scaling=MinMaxScaler() 
+scaling.fit_transform(df[['Alcohol','Malic Acid']]) 
+print(scaling.fit_transform(df[['Alcohol','Malic Acid']]))
+
+Scaling to fit in range 0-1:
+scaling = MinMaxScaler()
+scaling.fit_transform(df[['Alcohol', 'Malic Acid']])
+
+PartB:
+import pandas as pd 
+iris = pd.read_csv('iris.csv')
+iris.head()
+
+from sklearn.preprocessing import LabelEncoder
+le = LabelEncoder()
+iris['code'] = le.fit_transform(iris.Species)
+iris.head()
+iris.tail()
+
+
+prac 4:
+● Hypothesis Testing Formulate null and alternative hypotheses for a given problem. 
+● Conduct a hypothesis test using appropriate statistical tests (e.g., t-test, chi square test).
+Interpret the results and draw conclusions based on the test outcomes.
+
+INPUT:
+import pandas as pd
+import numpy as np
+import seaborn as sb
+import matplotlib as plt
+import warnings
+from scipy import stats
+print("Performed by 731 & 736")
+warnings.filterwarnings('ignore')
+df = sb.load_dataset('mpg')
+print(df.head())
+print("Performed by 731 & 736")
+print(df['horsepower'].describe())
+print(df['model_year'].describe())
+bins = [0, 75, 150, 240]
+df['horsepower_new'] = pd.cut(df['horsepower'], bins = bins,
+labels=['l', 'm', 'h'])
+print(df['horsepower_new'])
+print("Performed by 731 & 736")
+ybins = [69, 72, 74, 84]
+label = ['t1', 't2', 't3']
+df['modelyear_new'] = pd.cut(df['model_year'], bins=ybins,
+labels=label)
+print(df['modelyear_new'])
+print("Performed by 731 & 736")
+df_chi = pd.crosstab(df['horsepower_new'], df['modelyear_new'])
+print(df_chi)
+print(stats.chi2_contingency(df_chi))
+
+data1 = pd.read_csv('data.csv')
+print(stats.ttest_1samp(data1, 155))
+
+
+prac 5:
+Data Frames and Basic Data Pre-processing 
+● Read data from CSV and JSON files into a data frame.
+● Perform basic data pre-processing tasks such as handling missing values and 
+outliers. 
+● Manipulate and transform data using functions like filtering, sorting, and 
+grouping.
+
+1. Read data from CSV and JSON files into a data frame. 
+CSV file:
+
+INPUT:
+import pandas as pd
+df = pd.read_csv("students.csv")
+print("Sr.no", df)
+
+import pandas as pd 
+a = '[[["fruit", "Apple"], ["size", "Large"], ["color", "Red"]]]'
+data = pd.DataFrame({key:val for val, key in eval(a)[0]}, index=[0])
+print(data)
+
+2. Perform basic data pre-processing tasks such as handling missing values and 
+outliers.
+
+import pandas as pd
+file = open("C:/Users/sagar/downloads/Titanic.csv")
+type(file)
+import csv
+csvreader = csv.reader(file)
+import pandas as pd
+df = pd.read_csv("C:/Users/sagar/downloads/Titanic.csv")
+print(df.to_string())
+print(df)
+
+Apply -> head(25) we get multiple nan value
+df.head(25)
+
+df.dropna(inplace=True) to drop the na values and saves in memory (inplace)
+df.dropna(inplace=True) 
+df.head(25)
+
+Replace the value Nan by 0
+df2 = df.fillna(value = 0)
+df2
+
+3. Manipulate and transform data using functions like filtering, sorting, and grouping
+
+import pandas as pd
+import numpy as np
+iris = pd.read_csv("Iris.csv")
+print(iris['SepalLengthCm'])
+print(iris['SepalLengthCm']*2)
+print(iris['SepalLengthCm']==2)
+print(iris['Species']=='Iris-setosa')
+
+GROUPING:
+groups = iris.groupby('Species')
+groups.get_group('ris-setosa')
+
+SINGLE CONDITION:
+import pandas as pd
+d = pd.reda_csv("C:/Users/sagar/downloads/Titanic.csv")
+df = pd.DataFrame(d)
+print(df)
+df.loc[df['age']<20]
+
+MULTIPLE CONDITION:
+df.loc[(df['age']<20) & (df['sibsp']==0)]
+
+
+prac 6:
+Regression and Its Types Implement simple linear regression using a dataset. Explore and 
+interpret the regression model coefficients and goodness-of-fit measures. Extend the analysis of multiple linear regression and assess the impact of additional predictors.
+
+A. SLR (Simple Linear Regression)
+LungCapData<-read.csv(file.choose(),header=T)
+attach(LungCapData)
+names(LungCapData)
+class(Age)
+class(LungCap)
+plot(Age,LungCap,main=”ScatterPlot”)
+cor(Age,LungCap)
+mod<-lm(LungCap~Age)
+summary(mod)
+attributes(mod)
+mod$coefficients
+plot(Age,Lungcap,main=”ScatterPlot”)
+abline(mod,col=2,lwd=3)
+confint(mod)
+confint(mod,level=0.99)
+summary(mod)
+anova(mod)
+
+B. MLR(Multiple Linear Regression)
+LungCapData<-read.csv(file.choose(),header=T)
+attach(LungCapData)
+names(LungCapData)
+class(Age)
+class(LungCap)
+levels(Smoke)
+levels (LungCapData$Smoke)
+LungCapData$Smoke <- as.factor(LungCapData$Smoke)
+levels(LungCapData$Smoke)
+model1-lm(LungCap~Age+Height)
+summary(model1)
+cor(Age,Height,method=”pearson”)
+confint(model1,conf.level=0.95)
+confint
+model2<-lm(LungCap~Age+Height+Smoke+Gender+Caesarean)
+summary(model2)
+plot(model2)
+
+
+prac 7:
+Logistic Regression and Decision Tree Build a logistic regression model to predict a binary 
+outcome. 
+● Evaluate the model's performance using classification metrics (e.g., accuracy, precision, 
+recall). 
+● Construct a decision tree model and interpret the decision rules for classification.
+
+PART 1:  Evaluate the model's performance using classification metrics (e.g., accuracy, precision, recall).
+
+library(datasets)
+ir_data<-iris
+head(ir_data)
+str(ir_data)
+levels(ir_data$Species)
+sum(is.na(ir_data))
+ir_data<-ir_data[1:100,]
+set.seed(100)
+samp<-sample(1:100,80)
+ir_test<-ir_data[samp,]
+ir_ctrl<-ir_data[-samp,]
+install.packages(“ggplot2”)
+library(ggplot2)
+install.packages(“GGally”)
+library(GGally)
+ggpairs(ir_test)
+y<-ir_test$Species;x<-ir_test$Sepal.Length
+glfit<-glm(y~x, family = ‘binomal’)
+summary(glfit)
+newdata<-data.frame(x=ir_ctrl$Sepal.Length)
+predicted_val<-predict(glift,newdata, type = “response”)
+prediction<-data.frame(ir_ctrl$Sepal.Length, ir_ctrl$Species,predicted_val)
+prediction
+qplot<-qplot(prediction[,1],round(prediction[,3]), col=prediction[,2],xlab = "Sepal Length", 
+ylab="Prediction using Logistic Reg.")
+
+PART 2: Construct a decision tree model and interpret the decision rules for classification.
+
+# Install and load required packages
+install.packages("rpart")
+install.packages("rpart.plot")
+library(rpart)
+library(rpart.plot)
+# Load the iris dataset
+data(iris)
+# Check the structure of the dataset
+str(iris)
+# Ensure the target variable is a factor
+iris$Species <- as.factor(iris$Species)
+# Create a decision tree model
+tree_model <- rpart(Species ~ ., data = iris, method = "class")
+# Print the decision tree details
+print(tree_model)
+# Plot the decision tree
+prp(tree_model)
+
+
+prac 8:
+ Principal Component Analysis (PCA) Perform PCA on a dataset to reduce 
+dimensionality.
+Evaluate the explained variance and select the appropriate number of principal 
+components.
+Visualize the data in the reduced-dimensional space.
+
+data_iris<-iris[1:4]
+Cov_data<-cov(data_iris)
+Eigen_data<-eigen(Cov_data)
+PCA_data<-princomp(data_iris, cor="False")
+Eigen_data$values
+PCA_data$sdev^2
+PCA_data$loading[1:4]
+Eigen_data$vectors
+summary(PCA_data)
+biplot(PCA_data)
+screeplot(PCA_data, type="lines")
+library (class)
+install.packages("e1071")
+model2 = PCA_data$loadings[,1]
+model2_scores<- as matrix(data_iris) %*% model2
+data_mod1<-naiveBayes(iris[,1:4],iris[,5])
+component_mod2<-naiveBayes(model2_scores,iris[,5])
+table(predict(data_mod1,iris[,1:4]),iris[,5])
+table(predict(component_mod2,model2_scores),iris[,5])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
